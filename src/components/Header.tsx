@@ -43,6 +43,18 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuOpen && headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [mobileMenuOpen]);
   
   return (
     <header
@@ -54,30 +66,33 @@ const Header = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        <a href="#home" className="text-2xl font-bold">
-          Pratham<span className="text-primary">.</span>
+        <a href="#home" className="text-2xl font-bold group">
+          Pratham<span className="text-primary group-hover:animate-pulse">.</span>
         </a>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex space-x-4 lg:space-x-8">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className={`text-sm hover:text-primary transition-colors duration-300 ${
+              className={`text-sm hover:text-primary transition-colors duration-300 relative ${
                 activeSection === link.href.substring(1)
                   ? 'text-primary'
                   : 'text-foreground/80'
               }`}
             >
               {link.name}
+              {activeSection === link.href.substring(1) && (
+                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+              )}
             </a>
           ))}
         </nav>
         
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-foreground/90 hover:text-primary transition-colors"
+          className="md:hidden text-foreground/90 hover:text-primary transition-colors p-1"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
         >
@@ -93,13 +108,16 @@ const Header = () => {
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className={`text-lg ${
+              className={`text-lg relative ${
                 activeSection === link.href.substring(1)
                   ? 'text-primary'
                   : 'text-foreground/80'
               }`}
             >
               {link.name}
+              {activeSection === link.href.substring(1) && (
+                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+              )}
             </a>
           ))}
         </nav>

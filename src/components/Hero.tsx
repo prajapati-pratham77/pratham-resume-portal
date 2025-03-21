@@ -2,6 +2,7 @@
 import { ArrowDown } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
+import { Button } from './ui/button';
 
 // Tech icons that will animate in the background
 const techIcons = [
@@ -17,12 +18,21 @@ const Hero = () => {
   const [loaded, setLoaded] = useState(false);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
+  const roleRef = useRef(null);
   const techIconsRef = useRef<(HTMLDivElement | null)[]>([]);
   
   useEffect(() => {
     setLoaded(true);
     
-    // GSAP animations for the title and subtitle
+    // GSAP animations for the role, title and subtitle
+    gsap.from(roleRef.current, {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      delay: 0.1,
+      ease: "power3.out"
+    });
+    
     gsap.from(titleRef.current, {
       opacity: 0,
       y: 50,
@@ -69,6 +79,29 @@ const Hero = () => {
       }
     });
     
+    // Text reveal animations for Information Technology
+    const textElement = document.querySelector('.text-reveal');
+    if (textElement) {
+      const text = textElement.textContent || '';
+      textElement.innerHTML = '';
+      
+      [...text].forEach((char, index) => {
+        const span = document.createElement('span');
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        span.style.opacity = '0';
+        span.style.display = 'inline-block';
+        textElement.appendChild(span);
+        
+        gsap.to(span, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          delay: 0.8 + index * 0.04,
+          ease: "power3.out"
+        });
+      });
+    }
+    
   }, []);
   
   return (
@@ -106,7 +139,12 @@ const Hero = () => {
           loaded ? 'opacity-100 transform-none' : 'opacity-0 translate-y-10'
         }`}
       >
-        <h1 className="text-sm uppercase tracking-widest text-primary mb-4 font-medium">Flutter Developer</h1>
+        <h1 
+          ref={roleRef}
+          className="text-sm uppercase tracking-widest text-primary mb-4 font-medium"
+        >
+          Flutter Developer
+        </h1>
         <h2 
           ref={titleRef}
           className="text-5xl md:text-7xl font-bold mb-6 tracking-tight"
@@ -115,24 +153,30 @@ const Hero = () => {
         </h2>
         <p 
           ref={subtitleRef}
-          className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
+          className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-2"
         >
           Crafting beautiful, functional mobile experiences with Flutter
         </p>
+        <p className="text-reveal text-lg md:text-xl text-primary/80 font-mono max-w-2xl mx-auto">
+          Bachelor of Computer Applications in Information Technology
+        </p>
         
         <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="#contact" 
-            className="bg-primary text-white px-8 py-3 rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/20"
+          <Button 
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/20"
+            asChild
           >
-            Contact Me
-          </a>
-          <a 
-            href="#about" 
-            className="bg-white/5 backdrop-blur-sm border border-white/10 px-8 py-3 rounded-lg hover:bg-white/10 transition-all duration-300"
+            <a href="#contact">Contact Me</a>
+          </Button>
+          <Button
+            size="lg" 
+            variant="outline"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 px-8 py-6 rounded-lg hover:bg-white/10 transition-all duration-300"
+            asChild
           >
-            About Me
-          </a>
+            <a href="#about">About Me</a>
+          </Button>
         </div>
       </div>
       
