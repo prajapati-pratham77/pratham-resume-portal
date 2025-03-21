@@ -1,9 +1,8 @@
 
-import { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 
-const navItems = [
+const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
   { name: 'Experience', href: '#experience' },
@@ -14,109 +13,97 @@ const navItems = [
 ];
 
 const Header = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Handle scroll events for header styling and active section
   useEffect(() => {
     const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+      // Fix for offsetTop and offsetHeight TypeScript errors
+      if (headerRef.current) {
+        setIsScrolled(window.scrollY > 50);
+      }
       
-      // Determine active section
+      // Update active section based on scroll position
       const sections = document.querySelectorAll('section[id]');
-      sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
+      
+      sections.forEach(section => {
+        const sectionTop = (section as HTMLElement).offsetTop - 100;
+        const sectionHeight = (section as HTMLElement).offsetHeight;
+        const sectionId = section.getAttribute('id') || '';
+        
         if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-          setActiveSection(section.id);
+          setActiveSection(sectionId);
         }
       });
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-  
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
-  
   return (
-    <header 
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-10 py-4",
-        scrollPosition > 10 ? "bg-background/80 backdrop-blur-md border-b border-white/5" : "bg-transparent"
-      )}
+    <header
+      ref={headerRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-background/80 backdrop-blur-md py-3 shadow-lg'
+          : 'bg-transparent py-6'
+      }`}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo/Name */}
-        <a 
-          href="#home" 
-          className="text-lg font-semibold text-foreground group"
-        >
-          Pratham<span className="text-primary group-hover:text-white transition-colors duration-300">.</span>
+      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+        <a href="#home" className="text-2xl font-bold">
+          Pratham<span className="text-primary">.</span>
         </a>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-1">
-          {navItems.map((item) => (
+        <nav className="hidden md:flex space-x-8">
+          {navLinks.map((link) => (
             <a
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "relative px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200",
-                activeSection === item.href.substring(1)
-                  ? "text-primary"
-                  : "text-foreground/80 hover:text-primary"
-              )}
+              key={link.name}
+              href={link.href}
+              className={`text-sm hover:text-primary transition-colors duration-300 ${
+                activeSection === link.href.substring(1)
+                  ? 'text-primary'
+                  : 'text-foreground/80'
+              }`}
             >
-              {item.name}
-              {activeSection === item.href.substring(1) && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"></span>
-              )}
+              {link.name}
             </a>
           ))}
         </nav>
         
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-foreground p-1 focus:outline-none" 
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-foreground/90 hover:text-primary transition-colors"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
       
       {/* Mobile Navigation */}
-      <div 
-        className={cn(
-          "fixed inset-0 z-40 bg-background/95 backdrop-blur-md flex flex-col items-center justify-center md:hidden transition-all duration-300",
-          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        )}
-      >
-        <nav className="flex flex-col space-y-6 text-center">
-          {navItems.map((item) => (
+      {mobileMenuOpen && (
+        <nav className="md:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-md flex flex-col justify-start pt-12 px-6 items-center gap-6 animate-fade-in z-40">
+          {navLinks.map((link) => (
             <a
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "text-2xl font-medium transition-colors duration-200",
-                activeSection === item.href.substring(1)
-                  ? "text-primary"
-                  : "text-foreground/80 hover:text-primary"
-              )}
-              onClick={closeMobileMenu}
+              key={link.name}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className={`text-lg ${
+                activeSection === link.href.substring(1)
+                  ? 'text-primary'
+                  : 'text-foreground/80'
+              }`}
             >
-              {item.name}
+              {link.name}
             </a>
           ))}
         </nav>
-      </div>
+      )}
     </header>
   );
 };
