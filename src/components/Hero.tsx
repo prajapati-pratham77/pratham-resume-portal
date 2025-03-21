@@ -14,16 +14,15 @@ const Hero = () => {
       id="home" 
       className="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden"
     >
-      <div 
-        className={`absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none transition-opacity duration-1000 ${
-          loaded ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
+      {/* Gradient background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background pointer-events-none"></div>
+      
+      {/* Grid effect */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px] pointer-events-none"></div>
       
       {/* Floating shapes */}
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-primary/5 animate-float" style={{ animationDelay: '0.5s' }} />
-      <div className="absolute bottom-1/3 left-1/4 w-40 h-40 rounded-full bg-primary/10 animate-float" style={{ animationDelay: '1.2s' }} />
-      <div className="absolute top-1/3 left-1/5 w-24 h-24 rounded-full bg-primary/5 animate-float" style={{ animationDelay: '0.8s' }} />
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-primary/10 blur-3xl animate-float" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute bottom-1/3 left-1/4 w-40 h-40 rounded-full bg-primary/10 blur-3xl animate-float" style={{ animationDelay: '1.2s' }} />
       
       <div 
         className={`max-w-4xl mx-auto text-center appear-animation transition-all duration-1000 ${
@@ -47,7 +46,7 @@ const Hero = () => {
           </a>
           <a 
             href="#about" 
-            className="bg-white px-8 py-3 rounded-lg hover:bg-gray-50 transition-all duration-300 shadow-md hover:shadow-lg border"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 px-8 py-3 rounded-lg hover:bg-white/10 transition-all duration-300"
           >
             About Me
           </a>

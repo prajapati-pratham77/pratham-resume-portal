@@ -20,7 +20,7 @@ const educations = [
 
 const Education = () => {
   return (
-    <section id="education" className="py-24 px-6 bg-gray-50">
+    <section id="education" className="py-24 px-6 bg-gradient-to-b from-background to-secondary/10">
       <div className="max-w-6xl mx-auto">
         <h2 className="section-heading text-center">Education</h2>
         <p className="section-subheading text-center max-w-3xl mx-auto">
