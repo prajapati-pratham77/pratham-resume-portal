@@ -17,37 +17,55 @@ const techIcons = [
 
 const Hero = () => {
   const [loaded, setLoaded] = useState(false);
-  const titleRef = useRef(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef(null);
   const roleRef = useRef(null);
   const techIconsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const nameCharsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const isMobile = useIsMobile();
   
   useEffect(() => {
     setLoaded(true);
     
-    // GSAP animations for the role, title and subtitle
+    // GSAP animations for the role
     gsap.from(roleRef.current, {
       opacity: 0,
       y: 20,
-      duration: 0.8,
+      duration: 1.2,
       delay: 0.1,
-      ease: "power3.out"
+      ease: "power4.out"
     });
     
-    gsap.from(titleRef.current, {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      delay: 0.3,
-      ease: "power3.out"
-    });
+    // Animate each character of the name separately for a more modern effect
+    const nameEl = titleRef.current;
+    if (nameEl) {
+      const name = "Pratham Prajapati";
+      nameEl.innerHTML = '';
+      
+      // Create character spans
+      [...name].forEach((char, index) => {
+        const charSpan = document.createElement('span');
+        charSpan.classList.add('char');
+        charSpan.style.transitionDelay = `${index * 0.05}s`;
+        charSpan.textContent = char === ' ' ? '\u00A0' : char;
+        nameEl.appendChild(charSpan);
+        nameCharsRef.current.push(charSpan);
+      });
+      
+      // Trigger animation after a short delay
+      setTimeout(() => {
+        nameCharsRef.current.forEach(char => {
+          if (char) char.classList.add('char-visible');
+        });
+      }, 500);
+    }
     
+    // Subtitle animation
     gsap.from(subtitleRef.current, {
       opacity: 0,
       y: 30,
       duration: 1,
-      delay: 0.6,
+      delay: 1.2, // Delayed to start after name animation
       ease: "power3.out"
     });
     
@@ -65,7 +83,7 @@ const Hero = () => {
           opacity: 0.7,
           scale: 1,
           duration: 0.8,
-          delay: techIcons[index].delay,
+          delay: techIcons[index].delay + 0.5, // Additional delay to let name animation finish
           ease: "power2.out"
         });
         
@@ -92,13 +110,14 @@ const Hero = () => {
         span.textContent = char === ' ' ? '\u00A0' : char;
         span.style.opacity = '0';
         span.style.display = 'inline-block';
+        span.style.transform = 'translateY(10px)';
         textElement.appendChild(span);
         
         gsap.to(span, {
           opacity: 1,
           y: 0,
           duration: 0.3,
-          delay: 0.8 + index * 0.04,
+          delay: 1.5 + index * 0.04, // Increased delay to start after name animation
           ease: "power3.out"
         });
       });
@@ -111,15 +130,15 @@ const Hero = () => {
       id="home" 
       className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 relative overflow-hidden"
     >
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background pointer-events-none"></div>
+      {/* Gradient background with updated colors */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/30 via-background to-background pointer-events-none"></div>
       
       {/* Grid effect */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px] pointer-events-none"></div>
       
-      {/* Floating shapes */}
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
-      <div className="absolute bottom-1/3 left-1/4 w-40 h-40 rounded-full bg-primary/10 blur-3xl" />
+      {/* Floating shapes with updated colors */}
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-primary/20 blur-3xl" />
+      <div className="absolute bottom-1/3 left-1/4 w-40 h-40 rounded-full bg-primary/20 blur-3xl" />
       
       {/* Tech icons floating in the background */}
       {techIcons.map((icon, index) => (
@@ -145,15 +164,15 @@ const Hero = () => {
       >
         <h1 
           ref={roleRef}
-          className="text-sm uppercase tracking-widest text-primary mb-3 sm:mb-4 font-medium"
+          className="text-sm uppercase tracking-widest text-primary mb-3 sm:mb-4 font-medium text-glow"
         >
           Flutter Developer
         </h1>
         <h2 
           ref={titleRef}
-          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2 overflow-hidden"
         >
-          Pratham Prajapati
+          {/* Name will be inserted dynamically with js for character animation */}
         </h2>
         <p 
           ref={subtitleRef}
