@@ -1,4 +1,3 @@
-
 import { ArrowDown } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
@@ -188,7 +187,7 @@ const Hero = () => {
           Crafting beautiful, functional mobile experiences with Flutter
         </p>
         <p className="text-reveal text-sm sm:text-lg md:text-xl text-primary/80 font-mono max-w-2xl mx-auto px-2">
-          Bachelor of Computer Applications in Information Technology
+          Bachelor of Engineering in Information Technology
         </p>
         
         <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 justify-center px-4">
