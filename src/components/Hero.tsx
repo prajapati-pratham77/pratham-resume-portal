@@ -46,7 +46,11 @@ const Hero = () => {
       [...name].forEach((char, index) => {
         const charSpan = document.createElement('span');
         charSpan.classList.add('char');
-        charSpan.style.transitionDelay = `${index * 0.05}s`;
+        // Set initial opacity to 0 but final state will be 1
+        charSpan.style.opacity = '0';
+        charSpan.style.transform = 'translateY(100%)';
+        charSpan.style.display = 'inline-block';
+        charSpan.style.transition = `all 0.5s ease ${index * 0.05}s`;
         charSpan.textContent = char === ' ' ? '\u00A0' : char;
         nameEl.appendChild(charSpan);
         nameCharsRef.current.push(charSpan);
@@ -55,9 +59,12 @@ const Hero = () => {
       // Trigger animation after a short delay
       setTimeout(() => {
         nameCharsRef.current.forEach(char => {
-          if (char) char.classList.add('char-visible');
+          if (char) {
+            char.style.opacity = '1';
+            char.style.transform = 'translateY(0)';
+          }
         });
-      }, 500);
+      }, 300);
     }
     
     // Subtitle animation
@@ -170,7 +177,7 @@ const Hero = () => {
         </h1>
         <h2 
           ref={titleRef}
-          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2 overflow-hidden"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight px-2 overflow-hidden leading-tight"
         >
           {/* Name will be inserted dynamically with js for character animation */}
         </h2>

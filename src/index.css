@@ -112,13 +112,11 @@
     @apply relative after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
   }
   
-  /* Character animation for the name */
+  /* Character animation for the name - updated to make sure opacity persists */
   .char {
-    @apply inline-block transform translate-y-[100%] opacity-0 transition-all;
-  }
-  
-  .char-visible {
-    @apply transform-none opacity-100;
+    @apply inline-block;
+    /* We're removing the transform and opacity settings from here
+       as they will be set directly in the component with inline styles */
   }
   
   /* Glow effect animation */
