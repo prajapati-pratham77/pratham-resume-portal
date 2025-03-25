@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,11 +54,12 @@ const experiences = [
 
 const Experience = () => {
   const experienceRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Animate each experience card when scrolled into view
-      gsap.utils.toArray('.experience-card').forEach((card, index) => {
+      gsap.utils.toArray<Element>('.experience-card').forEach((card, index) => {
         gsap.fromTo(
           card,
           { 
@@ -70,7 +72,7 @@ const Experience = () => {
             duration: 0.8, 
             ease: "power3.out",
             scrollTrigger: {
-              trigger: card as Element,
+              trigger: card,
               start: "top bottom-=100",
               toggleActions: "play none none none"
             },
@@ -103,7 +105,7 @@ const Experience = () => {
     <section 
       ref={experienceRef}
       id="experience" 
-      className="py-24 px-6 bg-[#131520] bg-grid-white/[0.02] relative"
+      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#131520] bg-grid-white/[0.02] relative"
     >
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <div className="max-w-6xl mx-auto relative z-10">
@@ -112,9 +114,9 @@ const Experience = () => {
           My professional journey building mobile applications and websites.
         </p>
         
-        <div className="mt-16 relative">
-          <div className="h-full absolute left-6 md:left-1/2 md:-ml-px top-0 w-px bg-primary/20 timeline-line"></div>
-          <div className="space-y-12 relative">
+        <div className="mt-12 md:mt-16 relative">
+          {!isMobile && <div className="h-full absolute left-6 md:left-1/2 md:-ml-px top-0 w-px bg-primary/20 timeline-line"></div>}
+          <div className="space-y-8 md:space-y-12 relative">
             {experiences.map((exp, index) => (
               <div 
                 key={index} 
@@ -128,40 +130,40 @@ const Experience = () => {
                   } z-10 w-5 h-5 rounded-full bg-background border-2 border-primary`}
                 ></div>
                 
-                <div className="glass-card rounded-xl p-6 md:p-8 relative">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                    <div className="flex items-center gap-3 mb-4 md:mb-0">
+                <div className="glass-card rounded-xl p-5 sm:p-6 md:p-8 relative">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6">
+                    <div className="flex items-center gap-3 mb-3 md:mb-0">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                        <Briefcase size={18} />
+                        <Briefcase size={16} className="sm:size-18" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg">{exp.position}</h3>
-                        <p className="text-primary">{exp.company}</p>
+                        <h3 className="font-bold text-base sm:text-lg">{exp.position}</h3>
+                        <p className="text-primary text-sm sm:text-base">{exp.company}</p>
                       </div>
                     </div>
                     <div className="flex flex-col">
-                      <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm inline-block text-center mb-2">
+                      <span className="bg-primary/10 text-primary px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm inline-block text-center mb-1 sm:mb-2">
                         {exp.period}
                       </span>
-                      <span className="text-sm text-muted-foreground">{exp.location}</span>
+                      <span className="text-xs sm:text-sm text-muted-foreground">{exp.location}</span>
                     </div>
                   </div>
                   
-                  <ul className="mt-4 space-y-2 mb-6">
+                  <ul className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2 mb-4 sm:mb-6">
                     {exp.responsibilities.map((resp, idx) => (
                       <li key={idx} className="flex items-start gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0 mt-2"></span>
-                        <span className="text-muted-foreground text-sm">{resp}</span>
+                        <span className="text-muted-foreground text-xs sm:text-sm">{resp}</span>
                       </li>
                     ))}
                   </ul>
                   
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-end mt-3 sm:mt-4">
                     <Button 
                       variant="outline" 
                       size="sm" 
                       asChild
-                      className="group bg-transparent border-primary/30 hover:bg-primary/10 hover:text-primary text-primary/80"
+                      className="group bg-primary/10 border-primary/30 hover:bg-primary/20 hover:text-primary text-primary/90 text-xs sm:text-sm"
                     >
                       <a href={exp.portfolioLink}>
                         View Portfolio
