@@ -190,21 +190,13 @@ const Hero = () => {
           Bachelor of Computer Applications
         </p>
         
-        <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
+        <div className="mt-8 sm:mt-12 flex justify-center items-center px-4">
           <Button 
             size={isMobile ? "default" : "lg"}
             className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-5 sm:py-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/20 text-sm sm:text-base"
             asChild
           >
             <a href="#contact">Contact Me</a>
-          </Button>
-          <Button
-            size={isMobile ? "default" : "lg"}
-            variant="outline"
-            className="bg-white/5 backdrop-blur-sm border border-white/10 px-6 sm:px-8 py-5 sm:py-6 rounded-lg hover:bg-white/10 transition-all duration-300 text-sm sm:text-base mx-auto"
-            asChild
-          >
-            <a href="#about">About Me</a>
           </Button>
         </div>
       </div>

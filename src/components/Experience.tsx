@@ -105,7 +105,7 @@ const Experience = () => {
     <section 
       ref={experienceRef}
       id="experience" 
-      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#131520] bg-grid-white/[0.02] relative"
+      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-green-50 bg-grid-white/[0.02] relative"
     >
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <div className="max-w-6xl mx-auto relative z-10">
