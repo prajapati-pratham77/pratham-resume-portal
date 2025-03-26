@@ -10,7 +10,7 @@ const techIcons = [
   { name: 'Dart', x: 80, y: 35, delay: 0.5 },
   { name: 'Firebase', x: 25, y: 65, delay: 0.8 },
   { name: 'REST API', x: 70, y: 75, delay: 1.1 },
-  { name: 'UI/UX', x: 40, y: 50, delay: 1.4 },
+  { name: 'UI/UX', x: 50, y: 30, delay: 1.4 },
   { name: 'Android', x: 85, y: 15, delay: 1.7 },
 ];
 
@@ -187,10 +187,10 @@ const Hero = () => {
           Crafting beautiful, functional mobile experiences with Flutter
         </p>
         <p className="text-reveal text-sm sm:text-lg md:text-xl text-primary/80 font-mono max-w-2xl mx-auto px-2">
-          Bachelor of Engineering in Information Technology
+          Bachelor of Computer Applications
         </p>
         
-        <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 justify-center px-4">
+        <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
           <Button 
             size={isMobile ? "default" : "lg"}
             className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-5 sm:py-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/20 text-sm sm:text-base"
@@ -201,7 +201,7 @@ const Hero = () => {
           <Button
             size={isMobile ? "default" : "lg"}
             variant="outline"
-            className="bg-white/5 backdrop-blur-sm border border-white/10 px-6 sm:px-8 py-5 sm:py-6 rounded-lg hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 px-6 sm:px-8 py-5 sm:py-6 rounded-lg hover:bg-white/10 transition-all duration-300 text-sm sm:text-base mx-auto"
             asChild
           >
             <a href="#about">About Me</a>
