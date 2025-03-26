@@ -108,9 +108,13 @@ const Contact = () => {
               <div className="text-center">
                 <Button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/20"
+                  className="relative overflow-hidden bg-gradient-to-r from-green-400 to-green-600 text-white px-10 py-4 rounded-full text-base font-medium shadow-lg transform hover:scale-105 transition-all duration-300 group"
                 >
-                  Send Message
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <Mail size={18} />
+                    Send Message
+                  </span>
+                  <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
                 </Button>
               </div>
             </form>
