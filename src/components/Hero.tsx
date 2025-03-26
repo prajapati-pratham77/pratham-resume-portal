@@ -10,7 +10,7 @@ const techIcons = [
   { name: 'Dart', x: 80, y: 35, delay: 0.5 },
   { name: 'Firebase', x: 25, y: 65, delay: 0.8 },
   { name: 'REST API', x: 70, y: 75, delay: 1.1 },
-  { name: 'UI/UX', x: 50, y: 30, delay: 1.4 },
+  { name: 'UI/UX', x: 50, y: 10, delay: 1.4 },
   { name: 'Android', x: 85, y: 15, delay: 1.7 },
 ];
 
